@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block head %}
+Register Event
+{% endblock %}
+{% block content %}
+<h1> {{message}} {{event}}!</h1>
+{%if message2 %}
+<h1> {{message2}} {{session}}!</h1>
+{%endif %}
+{% if current_user.is_guest %}
+{% if check %}
+<p>You have incurred a fee of ${{fee}} </p>
+{% endif %}
+<p>Your fee total is ${{current_user._fees}}</p>
+{% endif %}
+{% endblock %}

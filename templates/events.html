@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block head %}
+Events
+{% endblock %}
+{% block content %}
+<link href="{{url_for('static', filename='css/events.css')}}" rel="stylesheet">
+<div class="grid-container">
+	<div class="header">
+		<h2>Events</h2>
+	</div>
+	<form class="page-tools" method="post">
+	<input type="radio" name="filter" value="all" {%if all%}checked{%endif%}> All
+	<input type="radio" name="filter" value="courses" {%if courses%}checked{%endif%}> Courses
+	<input type="radio" name="filter" value="seminars" {%if seminars%}checked{%endif%}> Seminars
+	<button type="submit" name="submit"> View</button><br>
+	</form>
+	{% if events %}
+		{% for event in events %}
+			<div class="tile">
+				<a href="{{url_for('display_event', eventName=event.name)}}">{{event.name}}</a>
+				<p>Current capacity: {{ event.attendee_names()|length }}/{{ event.maxAttendees }}</p>
+			</div>
+		{% endfor %}
+	{% else %}
+		No {%if courses%}courses{%elif seminars%}seminars{%else%}events{%endif%} currently available.
+		{% endif %}
+</div>
+{% endblock %}

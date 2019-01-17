@@ -1,0 +1,84 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.header {
+  grid-column: 1 / span 4;
+  background-color: #f1f1f1;
+  padding: 0px;
+  text-align: center;
+  font-size: 30px;
+}
+
+.sub-header {
+  grid-column: 1 / span 4;
+  background-color: #ccc;
+  padding: 0px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.notification-header {
+  grid-column: 1 / span 1;
+  background-color: #bbb;
+  height: 50px;
+}
+
+.notification-bar {
+  grid-column: 1 / span 1;
+  grid-row: 2 / span 2;
+  background-color: #bbb;
+  /*height: 300px;*/
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 24.35% 75%;
+  grid-gap: 10px;
+} 
+
+.grid-notification {
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  grid-gap: 10px;
+} 
+
+.grid-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+} 
+
+.tile {
+  background-color: #444;
+  /*color: #fff;*/
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.tile a{
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  .grid-container  {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+  }
+
+  .header {
+    grid-column: 2 / span 1;
+  }
+
+  .notification-bar {
+    grid-row: 1 / span 2;
+  }
+}

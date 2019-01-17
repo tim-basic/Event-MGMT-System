@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<link href="{{url_for('static', filename='css/navbar.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='css/dropdown.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<head>
+		<title>{% block head %}{% endblock %} - Event Manager</title>
+	</head>
+	<body>
+		<div class="navbar">
+			{% if current_user.is_anonymous %}
+			<div class="navbar-right">
+				<a href="{{url_for('login')}}">Login</a>
+			</div>
+			<div class="navbar-right">
+				<a href="{{url_for('guest_register')}}">Guest Registration</a>
+			</div>
+			{% else %}
+			<div class="navbar-left">
+			<a href="{{url_for('dashboard')}}">Dashboard</a>
+			<a href="{{url_for('events')}}">Events</a>
+				{% if current_user.is_staff %}
+				<div class="dropdown">
+					<button class="dropbtn">Create Event 
+						<i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-content">
+						<a href="{{url_for('create_course')}}">Course</a>
+						<a href="{{url_for('create_seminar')}}">Seminar</a>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			<div class="navbar-right">
+				<a href="{{url_for('logout')}}">Logout</a>
+				<p>(Logged in as {{current_user.name}})</p>
+			</div>
+			{% endif %}
+		</div>
+	{% block content %}{% endblock %}
+	</body>
+</html>

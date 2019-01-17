@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block head %}
+{%if edit%}Edit Session{%else%}Add Session{%endif%}
+{% endblock %}
+{% block content %}
+<div>
+	<p>	Enter additional sessions for {{ seminarName }}</p>
+</div>
+<div>
+	<form method = "POST" action="{%if edit%}{{ url_for('edit_session', seminarName=seminarName, sessionName=session.title)}}{%else%}{{ url_for('create_session', seminarName = seminarName)}}{%endif%}">
+	     <div style="margin: 10px 0px">
+			<label>Session Name: </label><br/>
+			<input name="sessionName" value="{%if session%}{{session.title}}{%elif form%}{{form['sessionName']}}{% endif %}" required/> 
+	     </div>
+             <div style="margin: 10px 0px">
+			<label>Speaker for session (Enter ID or email): </label><br/>
+			<input name="speaker" value="{%if session%}{{session.speaker.name}}{%elif form%}{{form['speaker']}}{% endif %}"/> 
+	     </div>
+             <div style="margin: 10px 0px">
+			<label>Maximum capacity of attendees: </label><br/>
+			<input type="number" min=1 name = "maxCapacity"  value="{%if session%}{{session.maxCapacity}}{%elif form%}{{form['maxCapacity']}}{% endif %}" required/> 
+	     </div>
+
+		<div style="margin: 10px 0px">
+			<button type="submit">Submit</button>
+		</div>
+	</form>
+</div>
+{%if message %}
+<div>
+{{message}} 
+</div>
+{% endif %}
+{% endblock %}

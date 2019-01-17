@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block head %}
+Edit Session
+{% endblock %}
+{% block content %}
+<h1>{{ event.name }}</h1>
+<p>Select a session to edit:</p>
+<h2>Seminar Sessions</h2>
+{% for session in event.sessions %}
+<li><strong>Title: </strong><a href="{{url_for('edit_session', seminarName=event.name, sessionName=session.title)}}">{{ session.title }}</a></li>
+<li><strong>Speaker Email: </strong>{{ session.speaker.email }}</li><br>
+{% endfor %}
+{% endblock %}

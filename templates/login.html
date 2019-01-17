@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block head %}
+Login
+{% endblock %}
+{% block content %}
+<link href="{{url_for('static', filename='css/login.css')}}" rel="stylesheet">
+<div class="login-page">
+	<div class="form">
+		<h3>Login</h3>
+		<br>
+		<form class="login-form" method="post">
+			<input type="text" name="ID" placeholder="Email or zID"/>
+			<input type="password" name="password" placeholder="Password"/>
+			<p>
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					{% for message in messages %}
+						{{ message }}
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+			</p>
+			<button>Login</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

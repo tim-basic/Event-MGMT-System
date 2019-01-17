@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block head %}
+Dashboard
+{% endblock %}
+{% block content %}
+<link href="{{url_for('static', filename='css/dashboard.css')}}" rel="stylesheet">
+
+<div class="grid-container">
+	<div class="grid-notification">
+		<div class="notification-header">
+			<h2>Notifications</h2>
+		</div>
+		<div class="notification-bar">
+		{% if current_user.is_guest %}
+			<li>Your fee total is ${{current_user.fees}}
+		{% endif %}
+		{% for notification in notifications %}
+			{% if notification.event.status|string == "Cancelled" %}
+			<li>{{notification.notification}}
+			{% else %}
+			<li><a href="{{url_for('display_event', eventName=notification.event.name)}}">{{notification.notification}}</a>
+			{% endif %}
+			<a style ="padding-left:1em" href="{{url_for('close_notification', notification=notification.notification)}}">x</a></li>
+		{% endfor %}
+		</div>
+	</div>
+	<div class="grid-tiles">
+		<div class="header">
+			<h1>Registered Events</h1>
+		</div>
+		<div class="sub-header">
+			<h2>Open</h2>
+		</div>
+		{% for event in crEvents %}
+		<div class="tile">
+			<a href="{{url_for('display_event', eventName=event.name)}}">{{event.name}}</a>
+			<p>Current capacity: {{ event.attendee_names()|length }}/{{ event.maxAttendees }}</p>	
+		</div>
+		{% endfor %}
+		<!-- <br> -->
+		<div class="sub-header">
+			<h2>Closed</h2>
+		</div>
+		{% for event in prEvents %}
+		<div class="tile">
+			<a href="{{url_for('display_event', eventName=event.name)}}">{{event.name}}</a>
+		</div>
+		{% endfor %}
+		<!-- <br><br><br> -->
+		{% if current_user.is_staff %}
+		<div class="header">
+			<h1>My Events</h1>
+		</div>
+		<div class="sub-header">
+			<h2>Open</h2>
+		</div>
+			{% for event in openEvents %}
+		<div class="tile">
+			<a href="{{url_for('display_event', eventName=event.name)}}">{{event.name}}</a>
+			<p>Current capacity: {{ event.attendee_names()|length }}/{{ event.maxAttendees }}</p>	
+		</div>
+			{% endfor %}
+			<!-- <br> -->
+		<div class="sub-header">
+			<h2>Closed</h2>
+		</div>
+			{% for event in closedEvents %}
+		<div class="tile">
+			<a href="{{url_for('display_event', eventName=event.name)}}">{{event.name}}</a>
+		</div>
+			{% endfor %}
+			<!-- <br> -->
+		<div class="sub-header">
+			<h2>Cancelled</h2>
+		</div>
+			{% for event in cancelledEvents %}
+		<div class="tile">
+			<a href="{{url_for('display_event', eventName=event.name)}}">{{event.name}}</a>
+		</div>
+	</div>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

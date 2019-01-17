@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block head %}
+Deregister
+{% endblock %}
+{% block content %}
+<h1> {{message}} {{event}}!</h1>
+{% if (current_user.is_guest) %}
+<p>Sorry no refunds! Your fee total is ${{current_user.fees}}</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block head %}
+{%if edit%}Edit Event{%else%}Create Course{%endif%}
+{% endblock %}
+{% block content %}
+<div>
+	<form method = "POST" action="{%if edit%}{{ url_for('edit_event', eventName=event.name)}}{%else%}{{ url_for('create_course')}}{%endif%}">
+		<div style="margin: 10px 0px">
+			<label>Event Name: </label><br/>
+			<input name = "eventName" value="{%if event%}{{event.name}}{%elif form%}{{form['eventName']}}{% endif %}" required/> 
+		</div>
+		<div style="margin: 10px 0px">
+			<label>Maximum attendees: </label><br/>
+			<input type="number" min="1" name="numAttendees" value="{%if event%}{{event.maxAttendees}}{%elif form%}{{form['numAttendees']}}{% endif %}" required/> 
+		</div>
+		<div style="margin: 10px 0px">
+			<label>Venue: </label><br/>
+			<input type="text" name="venue" value="{%if event%}{{event.venue}}{%elif form%}{{form['venue']}}{% endif %}" required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>Start Date: </label><br/>
+			<input type="date" name="startDate" value="{%if event%}{{event.startDate}}{%elif form%}{{form['startDate']}}{% endif %}" required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>End Date: </label><br/>
+			<input type="date" name="endDate" value="{%if event%}{{event.endDate}}{%elif form%}{{form['endDate']}}{% endif %}" required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>Can Deregister until: </label><br/>
+			<input type="date" name="deDate" value="{%if event%}{{event.deregisterPeriod}}{%elif form%}{{form['deDate']}}{% endif %}" required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>Guest fee: </label><br/>
+			<input type="number" name="fee" value="{%if event%}{{event.fee}}{%elif form%}{{form['fee']}}{% endif %}"/> 
+		</div>
+		<div style="margin: 10px 0px">
+			<label>Early bird discount cut-off date:<br>
+			<input type="date" name="earlyBirdDate" value="{%if event%}{{event.earlyBirdDate}}{%elif form%}{{form['earlyBirdDate']}}{% endif %}"/> 
+		</div>
+		<div style="margin: 10px 0px">
+			<label>Enter Description of Event: </label><br/>
+			<input type="text" name="description" value="{%if event%}{{event.description}}{%elif form%}{{form['description']}}{% endif %}" required/>
+		</div>
+		<div style="margin: 10px 0px">
+			<button type="submit">Submit</button>
+		</div>
+	</form>
+</div>
+{%if message %}
+<div>
+{{message}} 
+</div>
+{% endif %}
+{% endblock %}

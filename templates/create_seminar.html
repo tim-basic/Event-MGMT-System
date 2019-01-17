@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block head %}
+Create Seminar
+{% endblock %}
+{% block content %}
+<div>
+	<form method = "POST" action="{{ url_for('create_seminar')}}">
+		<div style="margin: 10px 0px">
+			<label>Event Name: </label><br/>
+			<input name="eventName" {%if form%}value="{{form['eventName']}}"{%endif%} required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>Maximum attendees: </label><br/>
+			<input type="number" min="1" name="numAttendees" {%if form%}value="{{form['numAttendees']}}"{%endif%} required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>Venue: </label><br/>
+			<input type="text" name="venue" {%if form%}value="{{form['venue']}}"{%endif%} required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>Start Date: </label><br/>
+			<input type="date" name="startDate" {%if form%}value="{{form['startDate']}}"{%endif%} required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>End Date: </label><br/>
+			<input type="date" name="endDate" {%if form%}value="{{form['endDate']}}"{%endif%} required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>Can Deregister until  </label><br/>
+			<input type="date" name="deDate" {%if form%}value="{{form['deDate']}}"{%endif%} required/> 
+		</div>
+		<div style="margin: 10px 0px">
+			<label>Enter Description of Event: </label><br/>
+			<input type="text" name="description" {%if form%}value="{{form['description']}}"{%endif%} required/>
+		</div>
+		<div style="margin: 10px 0px">
+			<label>Session Name: </label><br/>
+			<input name="sessionName" {%if form%}value="{{form['sessionName']}}"{%endif%} required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>Speaker for session (Enter ID or email): </label><br/>
+			<input name="speaker" {%if form%}value="{{form['speaker']}}"{%endif%}/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>Maximum capacity for session: </label><br/>
+			<input type = "number" min=1 name="maxCapacity" {%if form%}value="{{form['maxCapacity']}}"{%endif%} required/> 
+		</div>
+		<div style="margin: 10px 0px">
+			<label>Guest fee: </label><br/>
+			<input type="number" name="fee" min="0" {%if form%}value="{{form['fee']}}"{%endif%} required/> 
+		</div>
+			<div style="margin: 10px 0px">
+			<label>Early bird discount cut-off date: </label><br/>
+			<input type="date" name="earlyBirdDate" {%if form%}value="{{form['earlyBirdDate']}}"{%endif%} required/> 
+		</div>
+		<div style="margin: 10px 0px">
+			<button type="submit">Submit</button>
+		</div>
+	</form>
+</div>
+{%if message %}
+<div>
+{{message}} 
+</div>
+{% endif %}
+{% endblock %}

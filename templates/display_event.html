@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block head %}
+{{ event.name }}
+{% endblock %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<p>
+		{% for message in messages %}
+			{{ message }}
+		{% endfor %}
+	</p>
+	{% endif %}
+{% endwith %}
+<h1>{{ event.name }}</h1>
+<p><strong>Start date:</strong> {{ event.startDateStr() }}<br>
+<strong>End date:</strong> {{ event.endDateStr() }}<br>
+<strong>Latest date to deregister:</strong> {{ event.deregisterPeriodStr() }}<br>
+<strong>Venue:</strong> {{ event.venue }}<br>
+<strong>Current Capacity:</strong> {{ event.attendee_names()|length }}/{{ event.maxAttendees }}<br>
+<strong>Full fee (Non-UNSW members):</strong> ${{event.fee}}<br>
+<strong>Early bird discount cut-off date:</strong> {{event.earlyBirdDateStr()}}<br>
+<strong>Early bird fee (Non-UNSW members):</strong> ${{event.fee/2}}<br>
+</p>
+<h2>Event Description</h2>
+<p>{{ event.description }}</p>
+{% if seminar %}
+<p><h2>Seminar Sessions</h2>
+	{% for session in event.sessions %}
+	<li><strong>Title: </strong>{{ session.title }}</li>
+	<li><strong>Speaker: </strong>{{ session.speaker.name }}</li>
+	<li><strong>Capacity: </strong>{{ session.attendees|length }}/{{ session.maxCapacity }}</li><br>
+	{% endfor %}
+</p>
+{% endif %}
+{% if event.is_creator(current_user) %}
+<div>
+<h3>Attendees</h3>
+	<p>{% if attendees %}
+		{% for attendee in attendees %}
+		<li>{{ attendee }}</li>
+		{% endfor %}
+	{% else %}
+	No attendees.
+	{% endif %}
+	</p>
+</div>
+{% endif %}
+
+{% if event.is_creator(current_user) %}
+{% elif event.is_registered(current_user) and event.status.__str__() == "Open" %}
+<form action="{{url_for('deregistration', eventName=event.name)}}" method="POST">
+	<button>Click to Deregister!</button>
+</form>
+{% elif event.status.__str__() == "Open" %}
+<form action="{{url_for('registration', eventName=event.name)}}" method="POST">
+	<button>Click to Register!</button>
+</form>
+{% endif %}
+{% if event.is_registered(current_user) and seminar %}
+<form action="{{url_for('select_session_registration', seminarName=event.name)}}" method="GET">
+	<button>Click to Register for more sessions!</button>
+</form>
+{% endif %}
+
+{% if event.is_creator(current_user) and event.status.__str__() == "Open" %}
+<form action="{{url_for('close_event', eventName=event.name)}}" method="POST" style="display:inline;">
+	<button>Close Event</button>
+</form>
+<form action="{{url_for('cancel_event', eventName=event.name)}}" method="POST" style="display:inline;">
+	<button>Cancel Event</button>
+</form>
+<form action="{{url_for('edit_event', eventName=event.name)}}" method="GET" style="display:inline;">
+	<button>Edit Event</button>
+</form>
+	{% if seminar %}
+	<form action="{{url_for('create_session', seminarName=event.name)}}" method="GET" style="display:inline;">
+		<button>Add Session</button>
+	</form>
+	<form action="{{url_for('select_session', seminarName=event.name)}}" method="GET" style="display:inline;">
+		<button>Edit Sessions</button>
+	</form>
+	{% endif %}
+{% endif %}
+{% endblock %}
